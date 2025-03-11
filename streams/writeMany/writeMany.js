@@ -32,7 +32,7 @@ const fs = require("fs/promises");
 
   let i = 0;
   const writeMany = () => {
-    while (i < 1000000) {
+    while (i < 100000) {
       const buff = Buffer.from(` ${i} `, "utf-8");
       i++;
       if (i === 999999) {
