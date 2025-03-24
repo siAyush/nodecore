@@ -8,6 +8,9 @@ server.on("connection", (socket) => {
   console.log("a new connection");
 
   const clientId = clients.length + 1;
+  clients.forEach((client) => {
+    client.socket.write(`user ${clientId} joined`);
+  });
   socket.write(`id-${clientId}`);
 
   socket.on("data", (data) => {
@@ -16,6 +19,12 @@ server.on("connection", (socket) => {
     const message = dataString.substring(dataString.indexOf("-message-") + 9);
     clients.forEach((client) => {
       client.socket.write(`> user ${id} : ${message}`);
+    });
+  });
+
+  socket.on("end", () => {
+    clients.forEach((client) => {
+      client.socket.write(`user ${clientId} left`);
     });
   });
 
